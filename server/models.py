@@ -9,7 +9,7 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    # serialize_rules = ("",)
+    serialize_rules = ('-skills.user', '-projects.users', '-_password_hash')
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
@@ -28,7 +28,12 @@ class User(db.Model, SerializerMixin):
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
 
-    #add relationships
+    # One-to-Many relationship with Skill
+    skills = relationship('Skill', backref='user', lazy=True, cascade='all, delete-orphan')
+
+    # Many-to-Many relationship with Project
+    projects = relationship('Project', secondary='applications', back_populates='users')
+
 
     def __repr__(self):
         return f'User: {self.username}, ID: {self.id}'
@@ -58,7 +63,6 @@ class Skill(db.Model, SerializerMixin):
             raise ValueError('Proficiency must be present.')
         return proficiency
 
-    #add relationships    
 
     def __repr__(self):
         return f'Skill: {self.name}, ID: {self.id}'
@@ -93,7 +97,8 @@ class Project(db.Model, SerializerMixin):
             raise ValueError('required_skills must be present.')
         return required_skills
     
-    #add relationships
+    # Many-to-Many relationship with User
+    users = relationship('User', secondary='applications', back_populates='projects')
 
     def __repr__(self):
         return f'Project: {self.title}, ID: {self.id}'
@@ -116,7 +121,8 @@ class Application(db.Model, SerializerMixin):
             raise ValueError('Role must be present.')
         return role
 
-    #add relationships
+    user = relationship('User', backref='applications')
+    project = relationship('Project', backref='applications')
 
     def __repr__(self):
         return f'Application: {self.user_id}, ID: {self.id}, Role: {self.role}'
