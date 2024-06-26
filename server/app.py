@@ -9,7 +9,7 @@ from flask_restful import Resource
 # Local imports
 from config import app, db, api
 # Add your model imports
-from models import User, Skill, Project, Application
+from models import User
 
 
 # Views go here!
@@ -28,7 +28,8 @@ class Signup(Resource):
         db.session.add(user)
         db.session.commit()
         return user.to_dict(), 201
-    
+
+class
 
 
 

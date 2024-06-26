@@ -18,9 +18,8 @@ class User(db.Model, SerializerMixin):
     # One-to-Many relationship with Skill
     skills = relationship('Skill', back_populates='user', lazy=True, cascade='all, delete-orphan')
 
-    # Many-to-Many relationship with Project
-    projects = relationship('Project', secondary='applications', back_populates='users')
-
+    #Many-to-Many relationship with Application
+    applications = relationship('Application', back_populates='user')
 
     @hybrid_property
     def password_hash(self):
@@ -50,6 +49,7 @@ class Skill(db.Model, SerializerMixin):
     proficiency = db.Column(db.String, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
+    user = relationship('User', back_populates='skills')
 
     @validates('name')
     def validates_name(self, key, name):
@@ -79,11 +79,8 @@ class Project(db.Model, SerializerMixin):
     description = db.Column(db.String, nullable=False)
     required_skills = db.Column(db.String, nullable=False)
 
-
-
-    # Many-to-Many relationship with User
-    users = relationship('User', secondary='applications', back_populates='projects')
-
+    #Many-to-Many relationship with Application
+    applications = relationship('Application', back_populates='project')
 
     @validates('title')
     def validates_title(self, key, title):

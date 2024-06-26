@@ -8,7 +8,8 @@ from faker import Faker
 
 # Local imports
 from app import app
-from models import db, User, Skill, Project, Application
+from models import User, Skill, Project, Application
+from config import db
 
 if __name__ == '__main__':
 
@@ -19,9 +20,7 @@ if __name__ == '__main__':
         print("--Deleting all records--")
         # Delete existing data
         User.query.delete()
-        Skill.query.delete()
-        Project.query.delete()
-        Application.query.delete()
+        
 
         print("--Creating users--")
         users=[]
