@@ -9,12 +9,18 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-skills.user', '-projects.users', '-_password_hash')
+    serialize_rules = ("-skills.user", "-projects.users", "-_password_hash")
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
     _password_hash = db.Column(db.String)
     
+    # One-to-Many relationship with Skill
+    skills = relationship('Skill', back_populates='user', lazy=True, cascade='all, delete-orphan')
+
+    # Many-to-Many relationship with Project
+    projects = relationship('Project', secondary='applications', back_populates='users')
+
 
     @hybrid_property
     def password_hash(self):
@@ -27,12 +33,6 @@ class User(db.Model, SerializerMixin):
 
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
-
-    # One-to-Many relationship with Skill
-    skills = relationship('Skill', backref='user', lazy=True, cascade='all, delete-orphan')
-
-    # Many-to-Many relationship with Project
-    projects = relationship('Project', secondary='applications', back_populates='users')
 
 
     def __repr__(self):
@@ -79,6 +79,12 @@ class Project(db.Model, SerializerMixin):
     description = db.Column(db.String, nullable=False)
     required_skills = db.Column(db.String, nullable=False)
 
+
+
+    # Many-to-Many relationship with User
+    users = relationship('User', secondary='applications', back_populates='projects')
+
+
     @validates('title')
     def validates_title(self, key, title):
         if not title:
@@ -97,9 +103,6 @@ class Project(db.Model, SerializerMixin):
             raise ValueError('required_skills must be present.')
         return required_skills
     
-    # Many-to-Many relationship with User
-    users = relationship('User', secondary='applications', back_populates='projects')
-
     def __repr__(self):
         return f'Project: {self.title}, ID: {self.id}'
     
@@ -115,14 +118,16 @@ class Application(db.Model, SerializerMixin):
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
     role = db.Column(db.String, nullable=False)
 
+    user = relationship('User', back_populates='applications')
+    project = relationship('Project', back_populates='applications')
+
+
     @validates('role')
     def validates_required_role(self, key, role):
         if not role:
             raise ValueError('Role must be present.')
         return role
 
-    user = relationship('User', backref='applications')
-    project = relationship('Project', backref='applications')
 
     def __repr__(self):
         return f'Application: {self.user_id}, ID: {self.id}, Role: {self.role}'
