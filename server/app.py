@@ -65,6 +65,7 @@ class Logout(Resource):
 
         return {'error': 'Unauthorized'}, 401
 
+
 #api resource for users
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
