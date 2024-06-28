@@ -1,22 +1,18 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; 
-
-
-
-function Navbar({ user, setUser}) {
-    function handleLogoutClick(){
-        fetch("/logout", {method: "DELETE"}).then((r) => {
-            if(r.ok) {
-                setUser(null)
-            }
-        });
-    }
+import { Link } from 'react-router-dom';
+function NavBar(){
 
 
     return (
-        <Wrapper>
-            
-        </Wrapper>
+        <nav className='nav-bar'>
+          <ul>
+              <Link to="/">Home </Link>
+          </ul>
+          <ul>
+            <Link to="/userform">Create a new user</Link>
+          </ul>
+        </nav>
+      );
 
-)
 }
+
+export default NavBar;

@@ -3,7 +3,6 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request, session
 from flask_restful import Resource
 
 # Local imports
@@ -11,15 +10,22 @@ from config import app, db, api
 # Add your model imports
 from models import User
 
+from flask import request, make_response, jsonify, session
+
 
 # Views go here!
-
-# @app.route('/')
-# def index():
-#     return '<h1>Project Server</h1>'
-
-
 # This is for the users
+class Users(Resource):
+    def get(self):
+
+        users = User.query.all()
+        return make_response(
+            jsonify([user.to_dict() for user in users]),
+            200,
+        )
+
+        
+
 class Signup(Resource):
     def post(self):
         if 'username' not in request.get_json():
@@ -67,6 +73,7 @@ class Logout(Resource):
 
 
 #api resource for users
+api.add_resource(Users, '/users', endpoint='users')
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')

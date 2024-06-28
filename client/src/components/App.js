@@ -1,33 +1,51 @@
 import './styles.css';
 import React, { useEffect, useState } from "react";
-import { Route, Routes} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import NavBar from './NavBar';
+import UserForm from './UserForm';
 
 function App() {
-  const [user, setUser] = useState(null)
+  const [users, setUsers] = useState(null)
 
-  useEffect(() => {
-    
-    fetch("/check_session").then((r) => {
-      if (r.ok) {
-        r.json().then((user) => setUser(user));
+  useEffect(()=> {
+    fetch("/users").then(
+      r => r.json()
+    ).then(
+        data => {
+          setUsers(data)
+          console.log(data)
       }
-    });
-  }, []);
+    )
+    .catch((error) => console.log(error))
+  }, [])
 
-  if (!user) return <Login onLogin={setUser} />;
+  function handleNewUser(){
+    setUsers([...users])
+  }
+
+  // useEffect(() => {
+    
+  //   fetch("/check_session").then((r) => {
+  //     if (r.ok) {
+  //       r.json().then((user) => setUser(user));
+  //       console.log(user)
+  //     }
+  //   });
+  // }, []);
+
+  // if (!user) return <Login onLogin={setUser} />;
+
 
   return (
     <>
-      <NavBar user={user} setUser={setUser} />
+      <NavBar />
+      <Router>
+        <Routes>
+          <Route path="/userform" element={<UserForm handleNewUser={handleNewUser}  />} />
+        </Routes>
+      </Router>
       <main>
-        <Switch>
-          <Route path="/new">
-            <NewRecipe user={user} />
-          </Route>
-          <Route path="/">
-            <RecipeList />
-          </Route>
-        </Switch>
+        <h1>Hello This Works</h1>
       </main>
     </>
   );
