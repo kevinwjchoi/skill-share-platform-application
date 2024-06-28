@@ -1,5 +1,6 @@
+import './styles.css';
 import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Route, Routes} from 'react-router-dom';
 
 function App() {
   const [user, setUser] = useState(null)
