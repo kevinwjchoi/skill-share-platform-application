@@ -5,10 +5,9 @@ function NavBar(){
     return (
         <nav className='nav-bar'>
           <ul>
-              <Link to="/">Home </Link>
-          </ul>
-          <ul>
-            <Link to="/userform">Create a new user</Link>
+              <Link to="/home">Home </Link>
+              <Link to="/login">Login </Link>
+              <Link to="/signup">Signup</Link>
           </ul>
         </nav>
       );

@@ -1,12 +1,21 @@
 import React from 'react';
+import {useEffect, useState} from 'react'
+import Login from './Login';
 
-function Home({users}) {
 
+function Home() {
+    const [user, setUser] = useState(null)
 
-    //mapping out every user name
-    const nameOfUsers = users.map((user) => {
-       return <h3 key={user.id}>{user.name}</h3>
-    })
+    useEffect(() => {
+      // auto-login
+      fetch("/check_session").then((r) => {
+        if (r.ok) {
+          r.json().then((user) => setUser(user));
+        }
+      });
+    }, []);
+  
+    // if (!user) return <Login setUser={setUser} />;
 
 
     return (
@@ -15,8 +24,8 @@ function Home({users}) {
             <h1>Skill Platform</h1>
         </header>
         <div>
-            <h2>Here are a list of user spots!</h2>
-            <ul>{nameOfUsers}</ul>
+            <h2>Project list goes below</h2>
+            <ul></ul>
 
 
         </div>   

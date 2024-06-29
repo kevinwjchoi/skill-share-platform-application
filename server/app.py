@@ -24,18 +24,24 @@ class Users(Resource):
             200,
         )
 
-        
 
 class Signup(Resource):
     def post(self):
         if 'username' not in request.get_json():
             return {'error': 'Username and password are required.'}, 422
         
-        user = User(username=request.get_json()['username'])
-        user.password_hash = request.get_json()['password']
-        db.session.add(user)
+        username = User(username=request.get_json()['username'])
+        username.password_hash = request.get_json()['password']
+
+        user_exists = User.query.filter(username == username).first() is not None
+
+        if user_exists:
+            return jsonify({"error": "Username already exists"}), 409
+
+        db.session.add(username)
         db.session.commit()
-        return user.to_dict(), 201
+        return username.to_dict(), 201
+    
 
 class CheckSession(Resource):
     
@@ -46,6 +52,7 @@ class CheckSession(Resource):
             return user.to_dict(), 201
         else:
             return {"error": "Unauthorized"}, 401
+
 
 class Login(Resource):
     

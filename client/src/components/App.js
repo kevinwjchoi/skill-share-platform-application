@@ -2,9 +2,14 @@ import './styles.css';
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavBar from './NavBar';
-import UserForm from './UserForm';
+import Home from './Home';
+import Login from './Login';
+import Signup from  './Signup'
+
+
 
 function App() {
+
   const [users, setUsers] = useState(null)
 
   useEffect(()=> {
@@ -13,41 +18,25 @@ function App() {
     ).then(
         data => {
           setUsers(data)
-          console.log(data)
       }
     )
     .catch((error) => console.log(error))
   }, [])
 
-  function handleNewUser(){
-    setUsers([...users])
-  }
-
-  // useEffect(() => {
-    
-  //   fetch("/check_session").then((r) => {
-  //     if (r.ok) {
-  //       r.json().then((user) => setUser(user));
-  //       console.log(user)
-  //     }
-  //   });
-  // }, []);
-
-  // if (!user) return <Login onLogin={setUser} />;
-
 
   return (
-    <>
+  <div className="App">
+    <header className="App-header">  
       <NavBar />
-      <Router>
         <Routes>
-          <Route path="/userform" element={<UserForm handleNewUser={handleNewUser}  />} />
+          <Route path="/home" element={<Home />}/>
+          <Route path="/login" element={<Login />}/>
+          <Route path="/signup" element={<Signup />}/>
         </Routes>
-      </Router>
-      <main>
-        <h1>Hello This Works</h1>
-      </main>
-    </>
+
+    </header>
+
+  </div>
   );
 
 }
