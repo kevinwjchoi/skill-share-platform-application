@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
+import './styles.css';
 
 function LoginForm({setUser}){
 
@@ -54,10 +55,10 @@ function LoginForm({setUser}){
                             </div>
                             <div className="form-group">
                                 <label>Password</label>
-                                <Field name="password" type="text" className="form-control"/>
+                                <Field name="password" type="password" className="form-control"/>
                                 <ErrorMessage name="password" component="div" className="text-danger"/>
                             </div>
-                            <div className="form-group">
+                            <div className="form-group-btn">
                                 <button type="submit" className="submit-button">
                                     Submit
                                 </button>

@@ -15,11 +15,7 @@ function Signup(){
             <h1>Create a new user!</h1>
             <SignupForm />
             </header>
-        <div>
-            <form >
-            <button>Submit</button>
-            </form>
-        </div>
+
         </>    
         
 
