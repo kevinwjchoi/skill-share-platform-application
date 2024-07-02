@@ -3,19 +3,18 @@ import {useEffect, useState} from 'react'
 import Login from './Login';
 
 
-function Home() {
-    const [user, setUser] = useState(null)
+function Home({user, setUser}) {
 
     useEffect(() => {
       // auto-login
       fetch("/check_session").then((r) => {
         if (r.ok) {
-          r.json().then((user) => setUser(user));
+          r.json().then((data) => setUser(data));
         }
       });
     }, []);
   
-    // if (!user) return <Login setUser={setUser} />;
+    if (!user) return <Login setUser={setUser} />;
 
 
     return (

@@ -26,22 +26,29 @@ class Users(Resource):
 
 
 class Signup(Resource):
+
     def post(self):
-        if 'username' not in request.get_json():
+        data = request.get_json()
+
+        if 'username' not in data or 'password' not in data:
             return {'error': 'Username and password are required.'}, 422
         
-        username = User(username=request.get_json()['username'])
-        username.password_hash = request.get_json()['password']
+        username = data['username']
+        password = data['password']
 
-        user_exists = User.query.filter(username == username).first() is not None
+        user_exists = User.query.filter_by(username=username).first()
 
         if user_exists:
-            return jsonify({"error": "Username already exists"}), 409
+            return {"error": "Username already exists"}, 409
 
-        db.session.add(username)
+        new_user = User(username=username)
+        new_user.password_hash = password 
+
+        db.session.add(new_user)
         db.session.commit()
-        return username.to_dict(), 201
-    
+
+        return new_user.to_dict(), 201
+
 
 class CheckSession(Resource):
     
@@ -55,7 +62,7 @@ class CheckSession(Resource):
 
 
 class Login(Resource):
-    
+
     def post(self):
         username = request.get_json()['username']
         user = User.query.filter(User.username == username).first()
@@ -72,11 +79,11 @@ class Login(Resource):
 class Logout(Resource):
     
     def delete(self):
-        if session['user_id'] == ['user_id']:
+        if 'user_id' in session and session['user_id']:
             session['user_id'] = None
-            return {'message': '204: No Content'}, 204
-
-        return {'error': 'Unauthorized'}, 401
+            return {'message': 'Logged out successfully'}, 204
+        else:
+            return {'error': 'Unauthorized'}, 401
 
 
 #api resource for users

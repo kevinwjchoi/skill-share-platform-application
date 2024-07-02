@@ -3,9 +3,9 @@ import {Formik, Field, ErrorMessage, Form} from 'formik';
 import * as Yup from 'yup';
 import SignupForm from "./SignupForm";
 
-function Signup(){
+function Signup({handleNewUser}){
 
-    const [inputUsername, setInputUsername] = useState("")
+
 
 
 
@@ -13,7 +13,7 @@ function Signup(){
         <>
             <header>
             <h1>Create a new user!</h1>
-            <SignupForm />
+            <SignupForm handleNewUser={handleNewUser} />
             </header>
 
         </>    

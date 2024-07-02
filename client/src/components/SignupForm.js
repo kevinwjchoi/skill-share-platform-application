@@ -1,8 +1,9 @@
 import React from "react";
+import {useState} from "react";
 import {Formik, Field, ErrorMessage, Form} from 'formik';
 import * as Yup from 'yup';
 
-function SignupForm(){
+function SignupForm({handleNewUser}){
     const initialValues = {
         username: "",
         password: "",
@@ -12,7 +13,7 @@ function SignupForm(){
     const validationSchema = Yup.object().shape({
         username: Yup.string()
             .required("")
-            .min(6, "Username must be at least 6 characters")
+            .min(6, "Username must be at least 4 characters")
             .max(15, "Username must not exceed 15 characters"),
         password: Yup.string()
             .required("")
@@ -20,11 +21,32 @@ function SignupForm(){
             .max(80, "Password must not exceed 80 characters")
     });
 
-    const handleSubmit = (values, { resetForm }) => {
-
-        console.log("Form submitted:", values);
-        resetForm();
+    const handleSubmit = (values, { setErrors, resetForm }) => {
+        fetch("/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(values),
+        })
+        .then((r) => {
+            if (r.ok) {
+                return r.json().then((newUser) => handleNewUser(newUser));
+            } else {
+                return r.json().then((err) => {
+                    setErrors(err.errors);
+                    throw new Error("Signup failed.");
+                });
+            }
+        })
+        .catch((error) => {
+            console.error("Signup error:", error);
+        })
+        .finally(() => {
+            resetForm();
+        });
     };
+
 
     return (
         <div className="container" style={{padding: 20}}>
@@ -57,6 +79,6 @@ function SignupForm(){
         </div>
             
     )
-}
 
+};
 export default SignupForm

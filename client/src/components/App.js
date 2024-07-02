@@ -5,12 +5,27 @@ import NavBar from './NavBar';
 import Home from './Home';
 import Login from './Login';
 import Signup from  './Signup'
-
+import Logout from './Logout';
 
 
 function App() {
 
+
   const [users, setUsers] = useState(null)
+  const [user, setUser] = useState(null)
+
+  function handleNewUser(newUser){
+    setUsers([...users, newUser])
+  }
+  useEffect(() => {
+    // auto-login
+    fetch("/check_session").then((r) => {
+      if (r.ok) {
+        r.json().then((data) => setUser(data));
+      }
+    });
+  }, []);
+
 
   useEffect(()=> {
     fetch("/users").then(
@@ -27,11 +42,12 @@ function App() {
   return (
   <div className="App">
     <header className="App-header">  
-      <NavBar />
+      <NavBar user={user} setUser={setUser}/>
         <Routes>
-          <Route path="/home" element={<Home />}/>
-          <Route path="/login" element={<Login />}/>
-          <Route path="/signup" element={<Signup />}/>
+          <Route path="/home" element={<Home user={user} setUser={setUser} />}/>
+          <Route path="/login" element={<Login setUser={setUser} />}/>
+          <Route path="/signup" element={<Signup handleNewUser={handleNewUser}/>}/>
+          <Route path="/logout" element={<Logout user={user} setUser={setUser}/>}/>
         </Routes>
 
     </header>
