@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavBar from './NavBar';
 import Home from './Home';
 import Login from './Login';
-import Signup from  './Signup'
-import Logout from './Logout';
+import Signup from  './Signup';
+
 
 
 function App() {
@@ -45,9 +45,8 @@ function App() {
       <NavBar user={user} setUser={setUser}/>
         <Routes>
           <Route path="/home" element={<Home user={user} setUser={setUser} />}/>
-          <Route path="/login" element={<Login setUser={setUser} />}/>
+          <Route path="/login" element={<Login user={user} setUser={setUser} />}/>
           <Route path="/signup" element={<Signup handleNewUser={handleNewUser}/>}/>
-          <Route path="/logout" element={<Logout user={user} setUser={setUser}/>}/>
         </Routes>
 
     </header>

@@ -17,13 +17,14 @@ function NavBar({user, setUser}){
     return (
         <nav className='nav-bar'>
           <ul>
-              <Link to="/home">Home </Link>
               {user ? (
-                <Link to="/home" onClick={handleLogout}>Logout </Link>
+                <>
+                <Link to="/home">Home </Link>
+                <Link to="/" onClick={handleLogout}>Logout </Link>
+                </>
               ) : (
                 <Link to="/login">Login</Link>
               )}
-              
           </ul>
         </nav>
       );
