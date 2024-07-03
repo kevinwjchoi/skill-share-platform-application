@@ -1,7 +1,7 @@
 import React , {useState} from "react";
 import {Formik, Field, ErrorMessage, Form} from 'formik';
 import * as Yup from 'yup';
-import SignupForm from "./SignupForm";
+import SignupForm from "../components/SignupForm";
 
 function Signup({handleNewUser}){
 

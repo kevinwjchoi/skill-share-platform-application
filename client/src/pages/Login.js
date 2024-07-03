@@ -1,6 +1,5 @@
 import React from 'react'
-import LoginForm from './LoginForm';
-import Home from './Home';
+import LoginForm from '../components/LoginForm';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
@@ -26,7 +25,7 @@ function Login({ user, setUser }) {
 
     return (
     <div className="login-container">
-
+a
       <LoginForm setUser={setUser} />
       <p>
         Don't have an account yet?{' '}
