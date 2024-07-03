@@ -5,6 +5,7 @@ import NavBar from './NavBar';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Signup from  '../pages/Signup';
+import Setting from '../pages/Setting';
 
 
 
@@ -41,15 +42,16 @@ function App() {
 
   return (
   <div className="App">
-    <header className="App-header">  
       <NavBar user={user} setUser={setUser}/>
+        <main className="App-main"> 
         <Routes>
           <Route path="/home" element={<Home user={user} setUser={setUser} />}/>
           <Route path="/login" element={<Login user={user} setUser={setUser} />}/>
           <Route path="/signup" element={<Signup handleNewUser={handleNewUser}/>}/>
+          <Route path="/setting" element={<Setting user={user} setUser={setUser}/>}/>
         </Routes>
 
-    </header>
+        </main>
 
   </div>
   );

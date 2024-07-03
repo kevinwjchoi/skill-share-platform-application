@@ -14,20 +14,23 @@ function Home({user, setUser}) {
       });
     }, []);
   
-    if (!user) return <Login setUser={setUser} />;
+    if (!user) 
+      return <Login setUser={setUser} />;
 
 
     return (
       <div>
-        <header>
+        <main className="Main">
             <h1>Skill Platform</h1>
-        </header>
+            <p>Skill-share platform allows you and other developers to see projects that are available. Find a project that fits your role and submit an application! </p>
+        
         <div>
             <h2>Project list goes below</h2>
             <ul></ul>
 
 
-        </div>   
+        </div>  
+        </main> 
       </div>
     );
   }

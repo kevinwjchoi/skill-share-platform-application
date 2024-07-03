@@ -26,7 +26,6 @@ class Users(Resource):
 
 
 class Signup(Resource):
-
     def post(self):
         data = request.get_json()
 
@@ -51,7 +50,6 @@ class Signup(Resource):
 
 
 class CheckSession(Resource):
-    
     def get(self):
         user = User.query.filter(User.id == session.get('user_id')).first()
 
@@ -62,7 +60,6 @@ class CheckSession(Resource):
 
 
 class Login(Resource):
-
     def post(self):
         username = request.get_json()['username']
         user = User.query.filter(User.username == username).first()
@@ -77,7 +74,6 @@ class Login(Resource):
         return {'error': 'Invalid username or password'}, 401
 
 class Logout(Resource):
-    
     def delete(self):
         if 'user_id' in session and session['user_id']:
             session['user_id'] = None
@@ -85,6 +81,30 @@ class Logout(Resource):
         else:
             return {'error': 'Unauthorized'}, 401
 
+class UpdatePassword(Resource):
+    def patch(self):
+        data = request.get_json()
+
+        if 'user_id' not in session:
+            return {'error': 'Unauthorized'}, 401
+        
+        user_id = session['user_id']
+        user = User.query.get(user_id)
+
+        if not user:
+            return {'error': 'User not found'}, 404
+    
+        old_password = data('old_password')
+        new_password = data('new_password')
+
+        if not old_password or not new_password:
+            return {'error': 'Old password and new password are required'}, 422
+        
+        if not user.authenticate(old_password):
+            return {'error': 'Incorrect old password'}, 401
+        
+        user.update_password(new_password)
+        return {'message': 'Password updated successfully'}, 200
 
 #api resource for users
 api.add_resource(Users, '/users', endpoint='users')
@@ -92,6 +112,7 @@ api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
+api.add_resource(UpdatePassword, '/update_password', endpoint='update_password')
 
 
 if __name__ == '__main__':

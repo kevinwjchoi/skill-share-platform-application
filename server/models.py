@@ -33,6 +33,10 @@ class User(db.Model, SerializerMixin):
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
 
+    def update_password(self, new_password):
+        self.password_hash = new_password
+        db.session.commit()
+
 
     def __repr__(self):
         return f'User: {self.username}, ID: {self.id}'

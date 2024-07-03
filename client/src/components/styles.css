@@ -6,27 +6,88 @@
 
 
 /* For my general html elements */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+h1, h2, h3, h4, h5, h6 {
+  margin: 10px 0;
+}
+
 h1 {
-  font-family: Arial, sans-serif;
-  font-size: 24px;
+  font-size: 2em;
+  color: #333;
+}
+
+h2 {
+  font-size: 1.5em;
+  color: #666;
 }
 
 p {
-  font-family: Arial, sans-serif;
-  font-size: 14px;
+  margin: 10px 0;
 }
 
-h3 {
-  font-family: Arial, sans-serif;
-  font-size: 18px;
+ul {
+  list-style: none;
+  padding: 0;
 }
-  
 
-  /* For my form-group */
+ul li {
+  margin: 5px 0;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-around;
+  background: #333;
+  padding: 10px;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  color: #333;
+  margin: 20px;
+}
+
+/* For my main app */
+
+.App-main {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.Main {
+  text-align: center;
+}
+
+/* For my top nav */
+.nav-bar a {
+  float: left;
+  display: block;
+  color: #bdbaba;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.nav-bar a:hover {
+  background-color: #b3a4a4a7;
+  color: black;
+}
+
+
+/* For my form-group */
 .form-group {
     margin-bottom: 5px; 
     display: flex;
     flex-direction: column;
+    
 }
 
 .form-group label {

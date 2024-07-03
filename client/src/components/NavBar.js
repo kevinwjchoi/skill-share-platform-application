@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import './styles.css';
+
 function NavBar({user, setUser}){
 
   const handleLogout = () => {
@@ -20,6 +22,7 @@ function NavBar({user, setUser}){
               {user ? (
                 <>
                 <Link to="/home">Home </Link>
+                <Link to="/setting">Setting </Link>
                 <Link to="/" onClick={handleLogout}>Logout </Link>
                 </>
               ) : (

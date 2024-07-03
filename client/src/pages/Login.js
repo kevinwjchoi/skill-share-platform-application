@@ -25,7 +25,7 @@ function Login({ user, setUser }) {
 
     return (
     <div className="login-container">
-a
+
       <LoginForm setUser={setUser} />
       <p>
         Don't have an account yet?{' '}
