@@ -1,4 +1,3 @@
-import {useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import './styles.css';
 
@@ -40,7 +39,8 @@ function LoginForm({setUser}){
 
         return(
             <div className="container" style={{padding: 20}}>
-            <div className="login-form"><h3>Login below!</h3>
+            <div className="login-form">
+                <h3>Login below</h3>
                 <Formik
                 initialValues={initialValues}
                 onSubmit={handleSubmit}>

@@ -1,13 +1,15 @@
 import React from "react";
-import {useState} from "react";
 import {Formik, Field, ErrorMessage, Form} from 'formik';
 import * as Yup from 'yup';
+import { useNavigate } from "react-router-dom";
+
 
 function SignupForm({handleNewUser}){
     const initialValues = {
         username: "",
         password: "",
     };
+    const navigate = useNavigate();
 
     //handles all the input values  
     const validationSchema = Yup.object().shape({
@@ -44,6 +46,7 @@ function SignupForm({handleNewUser}){
         })
         .finally(() => {
             resetForm();
+            navigate('/login');
         });
     };
 
@@ -78,7 +81,7 @@ function SignupForm({handleNewUser}){
             </div>    
         </div>
             
-    )
+    );
 
 };
 export default SignupForm

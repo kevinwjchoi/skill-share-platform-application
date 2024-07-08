@@ -1,11 +1,41 @@
 import React from "react";
-import { useEffect } from 'react';
+import { useEffect , useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import SettingForm from '../components/SettingForm'
 
 function Setting({user, setUser}){
     const navigate = useNavigate();
+    const [showSettingForm, setShowSettingForm] = useState(false);
+    const [showButtons, setShowButtons] = useState(true);
+
+    const toggleSettingForm = () => {
+        setShowSettingForm(!showSettingForm);
+        setShowButtons(!showButtons);
+    }
+
+
+
+    const deleteAccountButton = () => {
+        fetch('/users/delete', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then((response) => {
+            if (response.ok) {
+                setUser(null);
+                navigate('/login');
+            } else {
+                return response.json().then((err) => {
+                    console.error('Failed to delete user:', err.error);
+                });
+            }
+        })
+        .catch((error)=> {
+            console.error('Error:', error);
+        });
+    };
 
     useEffect(() => {
         // auto-login
@@ -24,11 +54,15 @@ function Setting({user, setUser}){
 
     return (
     <>
-        <main className="Main">
+        <div>
             <h1>Settings</h1>
             <h2>Username: {user.username}</h2>
-            <SettingForm user={user} setUser={setUser} />
-        </main> 
+            {showButtons && (<button onClick={toggleSettingForm}>
+                Change password
+            </button>)}
+            {showSettingForm && <SettingForm setUser={setUser} toggleSettingForm={toggleSettingForm}/>}
+            {showButtons && (<button onClick={deleteAccountButton}>Delete Account</button> )}
+        </div> 
     </>
     );
 }

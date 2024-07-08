@@ -5,18 +5,18 @@ from sqlalchemy.orm import validates, relationship
 
 from config import db, bcrypt
 
-# One to many with Skills, Many to many with Projects 
+# One to many with roles, Many to many with Projects 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ("-skills.user", "-projects.users", "-_password_hash")
+    serialize_rules = ("-roles.user", "-projects.users", "-_password_hash")
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
     _password_hash = db.Column(db.String)
     
-    # One-to-Many relationship with Skill
-    skills = relationship('Skill', back_populates='user', lazy=True, cascade='all, delete-orphan')
+    # One-to-Many relationship with Role
+    roles = relationship('Role', back_populates='user', lazy=True, cascade='all, delete-orphan')
 
     #Many-to-Many relationship with Application
     applications = relationship('Application', back_populates='user')
@@ -43,17 +43,17 @@ class User(db.Model, SerializerMixin):
     
 
 #Many to one with User    
-class Skill(db.Model, SerializerMixin):
-    __tablename__ = 'skills'
+class Role(db.Model, SerializerMixin):
+    __tablename__ = 'roles'
 
-    serialize_rules = ("-user.skills",)
+    serialize_rules = ("-user.roles",)
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     proficiency = db.Column(db.String, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    user = relationship('User', back_populates='skills')
+    user = relationship('User', back_populates='roles')
 
     @validates('name')
     def validates_name(self, key, name):
@@ -69,7 +69,7 @@ class Skill(db.Model, SerializerMixin):
 
 
     def __repr__(self):
-        return f'Skill: {self.name}, ID: {self.id}'
+        return f'Role: {self.name}, ID: {self.id}'
     
 
  #Many to many with User    
@@ -81,7 +81,7 @@ class Project(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=False)
-    required_skills = db.Column(db.String, nullable=False)
+    required_roles = db.Column(db.String, nullable=False)
 
     #Many-to-Many relationship with Application
     applications = relationship('Application', back_populates='project')
@@ -98,11 +98,11 @@ class Project(db.Model, SerializerMixin):
             raise ValueError('Description must be present.')
         return description
     
-    @validates('required_skills')
-    def validates_required_skills(self, key, required_skills):
-        if not required_skills:
-            raise ValueError('required_skills must be present.')
-        return required_skills
+    @validates('required_roles')
+    def validates_required_roles(self, key, required_roles):
+        if not required_roles:
+            raise ValueError('required_roles must be present.')
+        return required_roles
     
     def __repr__(self):
         return f'Project: {self.title}, ID: {self.id}'

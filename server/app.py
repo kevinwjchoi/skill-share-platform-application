@@ -11,9 +11,11 @@ from config import app, db, api
 from models import User
 
 from flask import request, make_response, jsonify, session
+import logging
 
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
-# Views go here!
 # This is for the users
 class Users(Resource):
     def get(self):
@@ -83,28 +85,62 @@ class Logout(Resource):
 
 class UpdatePassword(Resource):
     def patch(self):
-        data = request.get_json()
+        data = request.get_json()  # Correct usage of request.get_json()
+        logger.debug(f"Received data: {data}")
 
+        if 'user_id' not in session:
+            logger.error("Unauthorized: No user_id in session")
+            return {'error': 'Unauthorized'}, 401
+        
+        user_id = session['user_id']
+        user = User.query.get(user_id)
+        logger.debug(f"User found: {user}")
+
+        if not user:
+            logger.error("User not found")
+            return {'error': 'User not found'}, 404
+    
+        old_password = data.get('oldPassword')
+        new_password = data.get('newPassword')
+
+        if not old_password or not new_password:
+            logger.error("Old password and new password are required")
+            return {'error': 'Old password and new password are required'}, 422
+        
+        if not user.authenticate(old_password):
+            logger.error("Incorrect old password")
+            return {'error': 'Incorrect old password'}, 401
+        
+        user.update_password(new_password)
+        logger.debug("Password updated successfully")
+        return {'message': 'Password updated successfully'}, 200
+
+class DeleteUser(Resource):
+    def delete(self):
         if 'user_id' not in session:
             return {'error': 'Unauthorized'}, 401
         
         user_id = session['user_id']
         user = User.query.get(user_id)
-
         if not user:
+            logger.error("user not found")
             return {'error': 'User not found'}, 404
-    
-        old_password = data('old_password')
-        new_password = data('new_password')
+        
+        db.session.delete(user)
+        db.session.commit()
 
-        if not old_password or not new_password:
-            return {'error': 'Old password and new password are required'}, 422
+        session.pop('user_id', None)
+        return {'message': 'User deleted successfully'}, 200
+
+
+
+#This is for the roles
+class CreateRole(Resource):
+    def post(self):
+        if 'user_id' not in session:
+            return {'error': 'Unauthorized'}, 401
         
-        if not user.authenticate(old_password):
-            return {'error': 'Incorrect old password'}, 401
-        
-        user.update_password(new_password)
-        return {'message': 'Password updated successfully'}, 200
+
 
 #api resource for users
 api.add_resource(Users, '/users', endpoint='users')
@@ -113,7 +149,10 @@ api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(UpdatePassword, '/update_password', endpoint='update_password')
+api.add_resource(DeleteUser, '/users/delete')
 
+#api resource for roles
+api.add_resource(CreateRole, '/roles', endpoint='roles')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

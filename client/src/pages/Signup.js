@@ -10,7 +10,7 @@ function Signup({handleNewUser}){
     return (
         <>
             <header>
-            <h1>Create a new user!</h1>
+            <h2>Create a new user</h2>
             <SignupForm handleNewUser={handleNewUser} />
             </header>
 
