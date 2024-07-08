@@ -1,4 +1,5 @@
 import {Formik, Form, Field, ErrorMessage} from 'formik';
+import * as Yup from 'yup'
 import './styles.css';
 
 function LoginForm({setUser}){
@@ -35,7 +36,15 @@ function LoginForm({setUser}){
             username: "",
             password: "",
         };
-    
+        
+        const validationSchema = Yup.object().shape({
+            username: Yup.string()
+                .required("Username is required")
+                .transform(value => value.toLowerCase()), 
+
+            password: Yup.string()
+                .required("Password is required"),
+        });
 
         return(
             <div className="container" style={{padding: 20}}>
@@ -43,6 +52,7 @@ function LoginForm({setUser}){
                 <h3>Login below</h3>
                 <Formik
                 initialValues={initialValues}
+                validationSchema={validationSchema}
                 onSubmit={handleSubmit}>
                     
                     {({ resetForm }) => (

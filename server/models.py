@@ -59,13 +59,13 @@ class Role(db.Model, SerializerMixin):
     def validates_name(self, key, name):
         if not name:
             raise ValueError('Name must be present.')
-        return name
+        return name.lower()
     
     @validates('proficiency')
     def validates_proficiency(self, key, proficiency):
         if not proficiency:
             raise ValueError('Proficiency must be present.')
-        return proficiency
+        return proficiency.lower()
 
 
     def __repr__(self):

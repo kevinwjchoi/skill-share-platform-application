@@ -15,6 +15,7 @@ function SignupForm({handleNewUser}){
     const validationSchema = Yup.object().shape({
         username: Yup.string()
             .required("")
+            .transform(value => value.toLowerCase())
             .min(4, "Username must be at least 4 characters")
             .max(15, "Username must not exceed 15 characters"),
         password: Yup.string()

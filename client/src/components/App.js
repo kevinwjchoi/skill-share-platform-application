@@ -14,6 +14,7 @@ function App() {
 
   const [users, setUsers] = useState(null)
   const [user, setUser] = useState(null)
+  const [role, setRole] = useState(null)
 
   function handleNewUser(newUser){
     setUsers([...users, newUser])
@@ -48,7 +49,7 @@ function App() {
           <Route path="/home" element={<Home user={user} setUser={setUser} />}/>
           <Route path="/login" element={<Login user={user} setUser={setUser} />}/>
           <Route path="/signup" element={<Signup handleNewUser={handleNewUser}/>}/>
-          <Route path="/setting" element={<Setting user={user} setUser={setUser}/>}/>
+          <Route path="/setting" element={<Setting user={user} setUser={setUser} setRole={setRole}/>}/>
         </Routes>
 
         </main>

@@ -8,7 +8,9 @@ from flask_restful import Resource
 # Local imports
 from config import app, db, api
 # Add your model imports
-from models import User
+from models import User, Role
+from sqlalchemy import and_
+
 
 from flask import request, make_response, jsonify, session
 import logging
@@ -34,7 +36,7 @@ class Signup(Resource):
         if 'username' not in data or 'password' not in data:
             return {'error': 'Username and password are required.'}, 422
         
-        username = data['username']
+        username = data['username'].lower()
         password = data['password']
 
         user_exists = User.query.filter_by(username=username).first()
@@ -135,11 +137,36 @@ class DeleteUser(Resource):
 
 
 #This is for the roles
+# class GetRole(Resource):
+#     def get(self):
+
+
 class CreateRole(Resource):
     def post(self):
-        if 'user_id' not in session:
-            return {'error': 'Unauthorized'}, 401
+        data = request.get_json()
+        if 'name' not in data or 'proficiency' not in data:
+            return {'error': 'name and proficiency are required.'}, 422
+
+        name = data['name']
+        proficiency = data['proficiency']
+        user_id = session['user_id']
+
+        if not user_id:
+            return {'error': 'User must be logged in to create a role.'}, 401
+
+        role_exists = Role.query.filter(and_(Role.name == name, Role.user_id == user_id)).first()
         
+        if role_exists:
+            return {"error": "Role already exists for this user"}, 409
+
+        new_role = Role(name=name)
+        new_role.proficiency = proficiency 
+        new_role.user_id = session['user_id']
+
+        db.session.add(new_role)
+        db.session.commit()
+
+        return new_role.to_dict(), 201
 
 
 #api resource for users

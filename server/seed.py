@@ -20,6 +20,7 @@ if __name__ == '__main__':
         print("--Deleting all records--")
         # Delete existing data
         User.query.delete()
+        Role.query.delete()
         
 
         print("--Creating users--")
@@ -27,7 +28,7 @@ if __name__ == '__main__':
         usernames=[]
 
         for i in range(10):
-            username = fake.first_name()
+            username = fake.first_name().lower()
             while username in usernames:
                 username = fake.first_name()
             usernames.append(username)
