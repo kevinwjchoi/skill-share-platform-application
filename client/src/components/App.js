@@ -14,11 +14,17 @@ function App() {
 
   const [users, setUsers] = useState(null)
   const [user, setUser] = useState(null)
-  const [role, setRole] = useState(null)
+
+  const [roles, setRoles] = useState(null)
 
   function handleNewUser(newUser){
     setUsers([...users, newUser])
   }
+
+  function handleNewRole(newRole){
+    setRoles([...roles, newRole])
+  }
+
   useEffect(() => {
     // auto-login
     fetch("/check_session").then((r) => {
@@ -27,7 +33,6 @@ function App() {
       }
     });
   }, []);
-
 
   useEffect(()=> {
     fetch("/users").then(
@@ -38,7 +43,8 @@ function App() {
       }
     )
     .catch((error) => console.log(error))
-  }, [])
+  }, []);
+
 
 
   return (
@@ -47,9 +53,9 @@ function App() {
         <main className="App-main"> 
         <Routes>
           <Route path="/home" element={<Home user={user} setUser={setUser} />}/>
-          <Route path="/login" element={<Login user={user} setUser={setUser} />}/>
-          <Route path="/signup" element={<Signup handleNewUser={handleNewUser}/>}/>
-          <Route path="/setting" element={<Setting user={user} setUser={setUser} setRole={setRole}/>}/>
+          <Route path="/login" element={<Login user={user} setUser={setUser} setRoles={setRoles}/>}/>
+          <Route path="/signup" element={<Signup user={user} setUser={setUser} handleNewUser={handleNewUser}/>}/>
+          <Route path="/setting" element={<Setting user={user} users={users} setUser={setUser} handleNewRole={handleNewRole} roles={roles}/>}/>
         </Routes>
 
         </main>

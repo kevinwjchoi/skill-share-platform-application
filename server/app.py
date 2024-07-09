@@ -137,8 +137,14 @@ class DeleteUser(Resource):
 
 
 #This is for the roles
-# class GetRole(Resource):
-#     def get(self):
+class GetRoles(Resource):
+    def get(self):
+        if 'user_id' in session and session['user_id'] is not None:
+            user_id = session['user_id']
+            roles = Role.query.filter_by(user_id=user_id).all()
+            roles_list = [role.to_dict() for role in roles]
+            return make_response(jsonify(roles_list), 200)
+        return {'error': 'Unauthorized'}, 401
 
 
 class CreateRole(Resource):
@@ -179,7 +185,8 @@ api.add_resource(UpdatePassword, '/update_password', endpoint='update_password')
 api.add_resource(DeleteUser, '/users/delete')
 
 #api resource for roles
-api.add_resource(CreateRole, '/roles', endpoint='roles')
+api.add_resource(GetRoles, '/get_roles', endpoint='get_roles')
+api.add_resource(CreateRole, '/create_role', endpoint='create_role')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

@@ -1,10 +1,17 @@
-import React , {useState} from "react";
+import React , {useEffect} from "react";
 import SignupForm from "../components/SignupForm";
 
-function Signup({handleNewUser}){
+function Signup({handleNewUser, setUser}){
 
-
-
+    useEffect(() => {
+        
+        fetch("/check_session").then((r) => {
+          if (r.ok) {
+            r.json().then((data) => setUser(data));
+          }
+        });
+      }, []);
+    
 
 
     return (

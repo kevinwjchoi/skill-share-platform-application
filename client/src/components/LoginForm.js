@@ -2,7 +2,7 @@ import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup'
 import './styles.css';
 
-function LoginForm({setUser}){
+function LoginForm({setUser, setRoles}){
 
 
 
@@ -24,6 +24,16 @@ function LoginForm({setUser}){
                 });
             }
         })
+        .then((r) => {
+            fetch("/get_roles").then(
+                r => r.json()
+              ).then(
+                data => {
+                  setRoles(data)
+                }
+              )
+              .catch((error) => console.log(error))
+            })
         .catch((error) => {
             console.error("Login error:", error);
         })
@@ -58,12 +68,12 @@ function LoginForm({setUser}){
                     {({ resetForm }) => (
                         <Form>
                             <div className="form-group">
-                                <label>Username</label>
+                                <label>Username:</label>
                                 <Field name="username" type="text" className="form-control"/>
                                 <ErrorMessage name="username" component="div" className="text-danger"/>
                             </div>
                             <div className="form-group">
-                                <label>Password</label>
+                                <label>Password:</label>
                                 <Field name="password" type="password" className="form-control"/>
                                 <ErrorMessage name="password" component="div" className="text-danger"/>
                             </div>

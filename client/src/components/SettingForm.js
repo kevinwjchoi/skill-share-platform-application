@@ -56,12 +56,12 @@ function SettingForm({ setUser, toggleSettingForm }){
                 >
                     <Form>
                         <div className="form-group">
-                            <label htmlFor="oldPassword">Enter old password</label>
+                            <label htmlFor="oldPassword">Enter old password:</label>
                             <Field name="oldPassword" type="password" className="form-control" />
                             <ErrorMessage name="oldPassword" component="div" className="text-danger"/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="newPassword">Enter new password</label>
+                            <label htmlFor="newPassword">Enter new password:</label>
                             <Field name="newPassword" type="password" className="form-control" />
                             <ErrorMessage name="newPassword" component="div" className="text-danger"/>
                         </div>

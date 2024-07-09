@@ -62,12 +62,12 @@ function SignupForm({handleNewUser}){
                 >
                         <Form>
                         <div className="form-group">
-                            <label htmlFor="username">Create username </label>
+                            <label htmlFor="username">Create username: </label>
                             <Field name="username" type="text" className="form-control" />
                             <ErrorMessage name="username" component="div" className="text-danger" />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="password">Create password </label>
+                            <label htmlFor="password">Create password: </label>
                             <Field name="password" type="password" className="form-control" />
                             <ErrorMessage name="password" component="div" className="text-danger" />
                         </div>

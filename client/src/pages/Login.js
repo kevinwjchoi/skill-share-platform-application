@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 
 
-function Login({ user, setUser }) {
+function Login({ user, setUser, setRoles}) {
     const navigate = useNavigate();
   
     useEffect(() => {
@@ -26,7 +26,7 @@ function Login({ user, setUser }) {
     return (
     <div className="login-container">
 
-      <LoginForm setUser={setUser} />
+      <LoginForm setUser={setUser} setRoles={setRoles}/>
       <p>
         Don't have an account yet?{' '}
         <Link to='/signup'>Sign up</Link>

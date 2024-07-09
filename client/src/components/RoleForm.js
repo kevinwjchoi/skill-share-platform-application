@@ -3,10 +3,10 @@ import * as Yup from 'yup';
 import React from "react";
 import './styles.css';
 
-function RoleForm({setRole}){
+function RoleForm({ handleNewRole }){
 
     function handleSubmit(values, { setErrors, resetForm }) {
-        fetch("/roles", {
+        fetch("/create_role", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -15,7 +15,7 @@ function RoleForm({setRole}){
         })
         .then((r) => {
             if (r.ok) {
-                return r.json().then((data) => setRole(data));
+                return r.json().then((data) => handleNewRole(data));
             } else {
                 return r.json().then((err) => {
                     setErrors(err.errors);
@@ -57,12 +57,12 @@ function RoleForm({setRole}){
                 >
                     <Form>
                         <div className="form-group">
-                            <label htmlFor="name">Enter role</label>
+                            <label htmlFor="name">Enter role:</label>
                             <Field name="name" type="text" className="form-control" />
                             <ErrorMessage name="name" component="div" className="text-danger"/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="proficiency">Enter proficiency</label>
+                            <label htmlFor="proficiency">Enter proficiency:</label>
                             <Field name="proficiency" type="text" className="form-control" />
                             <ErrorMessage name="proficiency" component="div" className="text-danger"/>
                         </div>
