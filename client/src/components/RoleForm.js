@@ -57,12 +57,12 @@ function RoleForm({ handleNewRole }){
                 >
                     <Form>
                         <div className="form-group">
-                            <label htmlFor="name">Enter role:</label>
+                            <label htmlFor="name">Enter Role:</label>
                             <Field name="name" type="text" className="form-control" />
                             <ErrorMessage name="name" component="div" className="text-danger"/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="proficiency">Enter proficiency:</label>
+                            <label htmlFor="proficiency">Enter Proficiency:</label>
                             <Field name="proficiency" type="text" className="form-control" />
                             <ErrorMessage name="proficiency" component="div" className="text-danger"/>
                         </div>

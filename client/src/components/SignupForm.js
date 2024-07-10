@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 
 function SignupForm({handleNewUser}){
+
     const initialValues = {
         username: "",
         password: "",
     };
+    
     const navigate = useNavigate();
 
     //handles all the input values  
@@ -85,4 +87,4 @@ function SignupForm({handleNewUser}){
     );
 
 };
-export default SignupForm
+export default SignupForm;

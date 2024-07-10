@@ -6,59 +6,78 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Signup from  '../pages/Signup';
 import Setting from '../pages/Setting';
+import Projects from '../pages/Projects';
 
 
 
 function App() {
 
-
   const [users, setUsers] = useState(null)
   const [user, setUser] = useState(null)
-
   const [roles, setRoles] = useState(null)
+  const [projects, setProjects] = useState(null)
+  const [project, setProject] = useState(null)
+
 
   function handleNewUser(newUser){
-    setUsers([...users, newUser])
+  setUsers([...users, newUser])
   }
 
   function handleNewRole(newRole){
-    setRoles([...roles, newRole])
+  setRoles([...roles, newRole])
   }
 
+  function handleNewProject(newProject){
+  setProjects([...projects, newProject])
+  }
   useEffect(() => {
-    // auto-login
-    fetch("/check_session").then((r) => {
-      if (r.ok) {
-        r.json().then((data) => setUser(data));
-      }
-    });
+      // auto-login
+      fetch("/check_session").then((r) => {
+          if (r.ok) {
+          r.json().then((data) => setUser(data));
+          }
+      });
   }, []);
 
   useEffect(()=> {
-    fetch("/users").then(
-      r => r.json()
-    ).then(
-        data => {
-          setUsers(data)
-      }
-    )
-    .catch((error) => console.log(error))
+      fetch("/users").then(
+          r => r.json()
+      ).then(
+          data => {
+              setUsers(data)
+          }
+      )
+      .catch((error) => console.log(error))
   }, []);
+
+  useEffect(() => {
+      fetch("/get_projects").then(
+          r => r.json()
+      ).then(
+          data => {
+              setProjects(data)
+          }
+      )
+      .catch((error) => console.log(error))
+  }, []);
+  
+  console.log(projects)
 
 
 
   return (
   <div className="App">
       <NavBar user={user} setUser={setUser}/>
-        <main className="App-main"> 
-        <Routes>
+          <main className="App-main"> 
+          <Routes>
           <Route path="/home" element={<Home user={user} setUser={setUser} />}/>
           <Route path="/login" element={<Login user={user} setUser={setUser} setRoles={setRoles}/>}/>
           <Route path="/signup" element={<Signup user={user} setUser={setUser} handleNewUser={handleNewUser}/>}/>
-          <Route path="/setting" element={<Setting user={user} users={users} setUser={setUser} handleNewRole={handleNewRole} roles={roles}/>}/>
-        </Routes>
+          <Route path="/setting" element={<Setting user={user} users={users} setUser={setUser} handleNewRole={handleNewRole} roles={roles} />}/>
+          <Route path="/projects" element={<Projects projects={projects} setUser={setUser} handleNewProject={handleNewProject} />}/>
+          </Routes>
 
-        </main>
+          </main>
 
   </div>
   );

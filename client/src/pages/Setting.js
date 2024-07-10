@@ -1,14 +1,15 @@
 import React from "react";
 import { useEffect , useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SettingForm from '../components/SettingForm'
+import SettingForm from '../components/SettingForm';
 import RoleForm from "../components/RoleForm";
 
 function Setting({user, setUser, handleNewRole, roles}){
     const navigate = useNavigate();
     const [showSettingForm, setShowSettingForm] = useState(false);
-    const [showButtons, setShowButtons] = useState(true);
     const [showRoleForm, setShowRoleForm] = useState(false);
+    const [showSettingButtons, setShowSettingButtons] = useState(true);
+
 
     useEffect(() => {
         fetch("/check_session").then((r) => {
@@ -28,13 +29,12 @@ function Setting({user, setUser, handleNewRole, roles}){
 
     const toggleSettingForm = () => {
         setShowSettingForm(!showSettingForm);
-        setShowButtons(!showButtons);
-
+        setShowSettingButtons(!showSettingButtons);
     }
 
     const toggleRoleForm = () => {
         setShowRoleForm(!showRoleForm);
-        setShowButtons(!showButtons)
+        setShowSettingButtons(!showSettingButtons)
     }
 
     const deleteAccountButton = () => {
@@ -67,10 +67,10 @@ function Setting({user, setUser, handleNewRole, roles}){
             <h2>Username: {user.username}</h2>
             <h2>Roles: {roleNames}</h2>
 
-            {showButtons && (<button onClick={toggleRoleForm}>Add Role</button>)}
-            {showButtons && (<button onClick={toggleSettingForm}>Change Password</button>)}
-            {showButtons && (<button onClick={deleteAccountButton}>Delete Account</button> )}
-            
+            {showSettingButtons && (<button onClick={toggleRoleForm}>Add Role</button>)}
+            {showSettingButtons && (<button onClick={toggleSettingForm}>Change Password</button>)}
+            {showSettingButtons && (<button onClick={deleteAccountButton}>Delete Account</button> )}
+
             {showRoleForm && <RoleForm toggleRoleForm={toggleRoleForm} handleNewRole={handleNewRole}/>}
             {showSettingForm && <SettingForm setUser={setUser} toggleSettingForm={toggleSettingForm}/>}
         </div> 
