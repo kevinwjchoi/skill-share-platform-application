@@ -2,7 +2,7 @@ import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import './styles.css';
 
-function LoginForm({setUser, setRoles}){
+function LoginForm({setUser, setRoles, fetchProjects, fetchApplications}){
 
 
 
@@ -39,6 +39,8 @@ function LoginForm({setUser, setRoles}){
         })
         .finally(() => {
             resetForm();
+            fetchProjects();
+            fetchApplications();
         });
     };
     

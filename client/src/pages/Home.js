@@ -4,7 +4,7 @@ import Login from './Login';
 
 
 
-function Home({user, setUser, myApplications}) {
+function Home({user, setUser, myApplications, projects}) {
 
     useEffect(() => {
       // auto-login
@@ -18,6 +18,7 @@ function Home({user, setUser, myApplications}) {
     if (!user) 
       return <Login setUser={setUser} />;
 
+    const applicationCount = myApplications.length; 
 
     return (
       <div>
@@ -30,15 +31,16 @@ function Home({user, setUser, myApplications}) {
           <ul></ul>
         </div>  
         <div>
-          <h2>My Applications</h2>
+          <h2>My Applications ({applicationCount})</h2>
           <ul>
             {myApplications.map((application) => (
               <li key={application.id}>
-                Project ID: {application.project_id} 
-                <br />
-                User ID: {application.user_id}
+                Project Title: {
+                  projects.find((project) => project.id === application.project_id)?.title || "Unknown"
+                }
                 <br />
                 Role: {application.role}
+                <br />
               </li>
             ))}
           </ul>

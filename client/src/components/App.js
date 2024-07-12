@@ -87,13 +87,51 @@ function handleDeleteProject(deletedProject) {
   }, []);
 
 
+
+  const fetchProjects = () => {
+      fetch("/get_projects")
+          .then((r) => {
+              if (r.ok) {
+                  return r.json();
+              } else {
+                  throw new Error("Failed to fetch projects.");
+              }
+          })
+          .then((data) => {
+              setProjects(data);
+          })
+          .catch((error) => {
+              console.error("Fetch projects error:", error);
+          });
+  };
+
+  // Example function to fetch applications
+  const fetchApplications = () => {
+      fetch("/get_my_applications")
+          .then((r) => {
+              if (r.ok) {
+                  return r.json();
+              } else {
+                  throw new Error("Failed to fetch applications.");
+              }
+          })
+          .then((data) => {
+              setApplications(data);
+          })
+          .catch((error) => {
+              console.error("Fetch applications error:", error);
+          });
+  };
+
+
+
   return (
   <div className="App">
       <NavBar user={user} setUser={setUser}/>
           <main className="App-main"> 
           <Routes>
-          <Route path="/home" element={<Home user={user} setUser={setUser} myApplications={myApplications} />}/>
-          <Route path="/login" element={<Login user={user} setUser={setUser} setRoles={setRoles}/>}/>
+          <Route path="/home" element={<Home user={user} setUser={setUser} myApplications={myApplications} projects={projects} />}/>
+          <Route path="/login" element={<Login user={user} setUser={setUser} setRoles={setRoles} fetchProjects={fetchProjects} fetchApplications={fetchApplications}/>}/>
           <Route path="/signup" element={<Signup user={user} setUser={setUser} handleNewUser={handleNewUser}/>}/>
           <Route path="/setting" element={<Setting user={user} users={users} setUser={setUser} handleNewRole={handleNewRole} roles={roles} />}/>
           <Route path="/projects" element={<Projects projects={projects} user={user} setUser={setUser} handleNewProject={handleNewProject} handleDeleteProject={handleDeleteProject} handleNewApplication={handleNewApplication} />}/>
