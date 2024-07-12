@@ -12,11 +12,12 @@ import Projects from '../pages/Projects';
 
 function App() {
 
-  const [users, setUsers] = useState(null)
+  const [users, setUsers] = useState([])
   const [user, setUser] = useState(null)
-  const [roles, setRoles] = useState(null)
-  const [projects, setProjects] = useState(null)
+  const [roles, setRoles] = useState([])
+  const [projects, setProjects] = useState([])
   const [project, setProject] = useState(null)
+  const [applications, setApplications] = useState([])
 
 
   function handleNewUser(newUser){
@@ -30,6 +31,18 @@ function App() {
   function handleNewProject(newProject){
   setProjects([...projects, newProject])
   }
+
+  function handleNewApplication(newApplication){
+    setApplications([...applications, newApplication])
+  }
+
+function handleDeleteProject(deletedProject) {
+  const updatedProjectList = projects.filter((project) => project.id !== deletedProject.id);
+  console.log(updatedProjectList)
+  setProjects(updatedProjectList);
+  console.log(projects)
+}
+
   useEffect(() => {
       // auto-login
       fetch("/check_session").then((r) => {
@@ -61,8 +74,6 @@ function App() {
       .catch((error) => console.log(error))
   }, []);
   
-  console.log(projects)
-
 
 
   return (
@@ -74,7 +85,7 @@ function App() {
           <Route path="/login" element={<Login user={user} setUser={setUser} setRoles={setRoles}/>}/>
           <Route path="/signup" element={<Signup user={user} setUser={setUser} handleNewUser={handleNewUser}/>}/>
           <Route path="/setting" element={<Setting user={user} users={users} setUser={setUser} handleNewRole={handleNewRole} roles={roles} />}/>
-          <Route path="/projects" element={<Projects projects={projects} setUser={setUser} handleNewProject={handleNewProject} />}/>
+          <Route path="/projects" element={<Projects projects={projects} user={user} setUser={setUser} handleNewProject={handleNewProject} handleDeleteProject={handleDeleteProject} handleNewApplication={handleNewApplication} />}/>
           </Routes>
 
           </main>

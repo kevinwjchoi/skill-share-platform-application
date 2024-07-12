@@ -1,14 +1,38 @@
 import React, {useState} from "react";
 
-function ProjectCard({ project }) {
+function ProjectCard({ project, handleDeleteProject, showApplicationForm, setShowApplicationForm, setSelectedProject}) {
 
-  const {title, description, required_skills} = project;
+  const {title, description, required_roles} = project;
   const [selectedFavorite, setSelectedFavorite] = useState(false);
 
   function handleSelectedFavorite(){
     setSelectedFavorite((selectedFavorite) => !selectedFavorite);
   }
 
+
+  const handleDeleteButton = () => {
+    fetch(`/delete_project/${project.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(r => {
+      if (!r.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return r.json();
+    })
+    .then(() => handleDeleteProject(project))
+    .catch(error => {
+      console.error('Error deleting project:', error);
+    });
+  }
+
+  const handleApplyButton = () => {
+    setSelectedProject(project)
+    setShowApplicationForm(!showApplicationForm);
+  }
   
   
   return (
@@ -19,14 +43,16 @@ function ProjectCard({ project }) {
         <br />
         <span>Description: {description}</span>
         <br />
+        <span>Roles: {required_roles}</span>
+        <br />
         {selectedFavorite ? (
           <button className="emoji-button favorite active" onClick={handleSelectedFavorite}>★</button>
         ) : (
           <button className="emoji-button favorite" onClick={handleSelectedFavorite}>☆</button>
         )}
-        <button className="emoji-button delete" >🗑</button>
-        {/* Add onClick Delete later */}
-        {/* Add an apply for role button */}
+        <button className="application-button" onClick={handleApplyButton}>Apply</button>
+
+        <button className="emoji-button delete" onClick={handleDeleteButton}>🗑</button>
       </div>
     </li>
   );

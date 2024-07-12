@@ -19,7 +19,7 @@ class User(db.Model, SerializerMixin):
     roles = relationship('Role', back_populates='user', lazy=True, cascade='all, delete-orphan')
 
     #Many-to-Many relationship with Application
-    applications = relationship('Application', back_populates='user')
+    applications = relationship('Application', back_populates='user', lazy=True, cascade='all, delete-orphan')
 
     @hybrid_property
     def password_hash(self):
@@ -84,7 +84,7 @@ class Project(db.Model, SerializerMixin):
     required_roles = db.Column(db.String, nullable=False)
 
     #Many-to-Many relationship with Application
-    applications = relationship('Application', back_populates='project')
+    applications = relationship('Application', back_populates='project', lazy=True, cascade='all, delete-orphan')
 
     @validates('title')
     def validates_title(self, key, title):

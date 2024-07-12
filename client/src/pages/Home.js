@@ -4,7 +4,7 @@ import Login from './Login';
 
 
 
-function Home({user, setUser, roles}) {
+function Home({user, setUser}) {
 
     useEffect(() => {
       // auto-login

@@ -8,7 +8,7 @@ from flask_restful import Resource
 # Local imports
 from config import app, db, api
 # Add your model imports
-from models import User, Role, Project
+from models import User, Role, Project, Application
 from sqlalchemy import and_
 
 
@@ -207,7 +207,44 @@ class GetProjects(Resource):
             200,
             )
         return {'error': 'Unauthorized'}, 401
+    
+class DeleteProject(Resource):
+    def delete(self, id):
         
+        project = Project.query.filter(Project.id == id).first()
+        
+        db.session.delete(project)
+        db.session.commit()
+
+        return {'message': 'project was successfully deleted'}, 200
+
+            
+#This is for Applications 
+class CreateApplication(Resource):
+    def post(self):
+        data = request.get_json()
+        if 'role' not in data or 'project_id' not in data:
+            return {'error': 'role and project_id are required.'}, 422
+        
+        role = data['role']
+        user_id = session['user_id']
+        project_id = data['project_id']
+
+        if not user_id:
+            return {'error': 'User must be logged in to create a role.'}, 401
+
+        project = Project.query.get(project_id)
+        if not project:
+            return {'error': 'Project not found.'}, 404
+
+        new_application = Application(role=role, user_id=user_id, project_id=project_id)
+
+        db.session.add(new_application)
+        db.session.commit()
+
+        return new_application.to_dict(), 201
+
+
 
 #api resource for users
 api.add_resource(Users, '/users', endpoint='users')
@@ -225,6 +262,11 @@ api.add_resource(CreateRole, '/create_role', endpoint='create_role')
 #api resource for projects 
 api.add_resource(CreateProject, '/create_project', endpoint='create_project')
 api.add_resource(GetProjects, '/get_projects', endpoint='get_projects') 
+api.add_resource(DeleteProject, '/delete_project/<int:id>', endpoint='delete_project')
+
+#api resource for applications
+api.add_resource(CreateApplication, '/create_application', endpoint='create_application')
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

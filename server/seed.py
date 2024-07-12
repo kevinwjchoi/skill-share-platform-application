@@ -21,6 +21,7 @@ if __name__ == '__main__':
         # Delete existing data
         User.query.delete()
         Role.query.delete()
+        Project.query.delete()
         
 
         print("--Creating users--")
