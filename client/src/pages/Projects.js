@@ -43,7 +43,6 @@ function Projects({user, setUser, handleNewProject, projects, handleDeleteProjec
     return false;
   }) : projects;
 
-  console.log(filteredProjectList)
   const options = ["Filter by Role", "Frontend", "Backend"]
 
   return (

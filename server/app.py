@@ -243,6 +243,16 @@ class CreateApplication(Resource):
         db.session.commit()
 
         return new_application.to_dict(), 201
+    
+class GetMyApplication(Resource):
+    def get(self):
+        if 'user_id' in session and session['user_id'] is not None:
+            user_id = session['user_id']
+            applications = Application.query.filter_by(user_id = user_id).all()
+            return make_response(jsonify([application.to_dict() for application in applications]),
+            200,
+            )
+        return {'error': 'Unauthorized'}, 401
 
 
 
@@ -266,7 +276,7 @@ api.add_resource(DeleteProject, '/delete_project/<int:id>', endpoint='delete_pro
 
 #api resource for applications
 api.add_resource(CreateApplication, '/create_application', endpoint='create_application')
-
+api.add_resource(GetMyApplication, '/get_my_applications', endpoint='get_my_applications')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

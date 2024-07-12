@@ -18,6 +18,7 @@ function App() {
   const [projects, setProjects] = useState([])
   const [project, setProject] = useState(null)
   const [applications, setApplications] = useState([])
+  const [myApplications, setMyApplications] = useState([])
 
 
   function handleNewUser(newUser){
@@ -74,6 +75,16 @@ function handleDeleteProject(deletedProject) {
       .catch((error) => console.log(error))
   }, []);
   
+  useEffect(() => {
+    fetch("/get_my_applications").then(
+      r => r.json()
+    ).then(
+      data => {
+        setMyApplications(data)
+      }
+    )
+    .catch((error) => console.log(error))
+  }, []);
 
 
   return (
@@ -81,7 +92,7 @@ function handleDeleteProject(deletedProject) {
       <NavBar user={user} setUser={setUser}/>
           <main className="App-main"> 
           <Routes>
-          <Route path="/home" element={<Home user={user} setUser={setUser} />}/>
+          <Route path="/home" element={<Home user={user} setUser={setUser} myApplications={myApplications} />}/>
           <Route path="/login" element={<Login user={user} setUser={setUser} setRoles={setRoles}/>}/>
           <Route path="/signup" element={<Signup user={user} setUser={setUser} handleNewUser={handleNewUser}/>}/>
           <Route path="/setting" element={<Setting user={user} users={users} setUser={setUser} handleNewRole={handleNewRole} roles={roles} />}/>
