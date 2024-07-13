@@ -235,6 +235,10 @@ class CreateApplication(Resource):
         project = Project.query.get(project_id)
         if not project:
             return {'error': 'Project not found.'}, 404
+        
+        application_exists = Application.query.filter_by(user_id=user_id, project_id=project_id).first()
+        if application_exists:
+            return {'error': 'Application already exists.'}, 409 
 
         user_roles = [role.name.lower() for role in User.query.get(user_id).roles]
         if project.required_roles.lower() not in user_roles:
