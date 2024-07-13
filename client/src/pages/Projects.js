@@ -12,6 +12,15 @@ function Projects({user, setUser, handleNewProject, projects, handleDeleteProjec
   const [showApplicationForm, setShowApplicationForm] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
+  const userApplicationProjectIDs = [];
+
+  user.applications.forEach(application => {
+    const projectId = application.project.id;
+    userApplicationProjectIDs.push(projectId);
+  });
+  console.log(userApplicationProjectIDs)
+
+
   useEffect(() => {   
       fetch("/check_session").then((r) => {
         if (r.ok) {
@@ -45,6 +54,7 @@ function Projects({user, setUser, handleNewProject, projects, handleDeleteProjec
 
   const options = ["Filter by Role", "Frontend", "Backend"]
 
+
   return (
     <>
       <header>
@@ -62,7 +72,7 @@ function Projects({user, setUser, handleNewProject, projects, handleDeleteProjec
       <ul className="cards">
         {showAddProjectButton && filteredProjectList.length > 0 ? (
           filteredProjectList.map((project) => (
-            <ProjectCard key={project.id} project={project} handleDeleteProject={handleDeleteProject} setSelectedProject={setSelectedProject} setShowApplicationForm={setShowApplicationForm} showApplicationForm={showApplicationForm} fetchApplications={fetchApplications}/>
+            <ProjectCard key={project.id} project={project} handleDeleteProject={handleDeleteProject} setSelectedProject={setSelectedProject} setShowApplicationForm={setShowApplicationForm} showApplicationForm={showApplicationForm} fetchApplications={fetchApplications} userApplicationProjectIDs={userApplicationProjectIDs}/>
           ))
         ) : (
           <p>No projects available</p>

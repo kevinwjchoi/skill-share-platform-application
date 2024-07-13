@@ -1,9 +1,11 @@
 import React, {useState} from "react";
 
-function ProjectCard({ project, handleDeleteProject, showApplicationForm, setShowApplicationForm, setSelectedProject, fetchApplications}) {
+function ProjectCard({ project, handleDeleteProject, showApplicationForm, setShowApplicationForm, setSelectedProject, fetchApplications, userApplicationProjectIDs }) {
 
   const {title, description, required_roles} = project;
   const [selectedFavorite, setSelectedFavorite] = useState(false);
+  
+  const isApplied = userApplicationProjectIDs.includes(project.id);
 
   function handleSelectedFavorite(){
     setSelectedFavorite((selectedFavorite) => !selectedFavorite);
@@ -53,8 +55,12 @@ function ProjectCard({ project, handleDeleteProject, showApplicationForm, setSho
         ) : (
           <button className="emoji-button favorite" onClick={handleSelectedFavorite}>☆</button>
         )}
-        <button className="application-button" onClick={handleApplyButton}>Apply</button>
-
+        {isApplied ? (
+            <button className="application-button" disabled>Applied</button>
+        ) : (
+            <button className="application-button" onClick={handleApplyButton}>Apply</button>
+        )}
+        
         <button className="emoji-button delete" onClick={handleDeleteButton}>🗑</button>
       </div>
     </li>
