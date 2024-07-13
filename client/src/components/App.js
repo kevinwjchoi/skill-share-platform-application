@@ -75,6 +75,16 @@ function App() {
       });
   };
 
+  const fetchUser = () => {
+    fetch("/check_session").then((r) => {
+      if (r.ok) {
+        r.json().then((data) => {
+          setUser(data);
+        });
+      }
+    });
+  };  
+
   useEffect(() => {
     fetch("/check_session").then((r) => {
       if (r.ok) {
@@ -109,7 +119,7 @@ function App() {
           <Route path="/home" element={<Home user={user} setUser={setUser} myApplications={myApplications} projects={projects} />}/>
           <Route path="/login" element={<Login user={user} setUser={setUser} setRoles={setRoles} fetchProjects={fetchProjects} fetchApplications={fetchApplications}/>}/>
           <Route path="/signup" element={<Signup user={user} setUser={setUser} handleNewUser={handleNewUser}/>}/>
-          <Route path="/setting" element={<Setting user={user} users={users} setUser={setUser} handleNewRole={handleNewRole} roles={roles} />}/>
+          <Route path="/setting" element={<Setting user={user} users={users} setUser={setUser} handleNewRole={handleNewRole} roles={roles} fetchUser={fetchUser}/>}/>
           <Route path="/projects" element={<Projects projects={projects} user={user} setUser={setUser} handleNewProject={handleNewProject} handleDeleteProject={handleDeleteProject} handleNewApplication={handleNewApplication} fetchApplications={fetchApplications}/>}/>
           </Routes>
 

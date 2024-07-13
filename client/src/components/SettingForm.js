@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import React from "react";
 import './styles.css';
 
-function SettingForm({ setUser, toggleSettingForm }){
+function SettingForm({ setUser, toggleSettingForm, fetchUser }){
     const initialValues= {
         oldPassword: "",
         newPassword: "",
@@ -38,6 +38,7 @@ function SettingForm({ setUser, toggleSettingForm }){
         })
         .finally(() => {
             resetForm();
+            fetchUser();
         });
         toggleSettingForm()
     }

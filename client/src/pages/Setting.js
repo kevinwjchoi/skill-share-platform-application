@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import SettingForm from '../components/SettingForm';
 import RoleForm from "../components/RoleForm";
 
-function Setting({user, setUser, handleNewRole, roles}){
+function Setting({user, setUser, handleNewRole, roles, fetchUser}){
     const navigate = useNavigate();
     const [showSettingForm, setShowSettingForm] = useState(false);
     const [showRoleForm, setShowRoleForm] = useState(false);
@@ -72,7 +72,7 @@ function Setting({user, setUser, handleNewRole, roles}){
             {showSettingButtons && (<button onClick={deleteAccountButton}>Delete Account</button> )}
 
             {showRoleForm && <RoleForm toggleRoleForm={toggleRoleForm} handleNewRole={handleNewRole}/>}
-            {showSettingForm && <SettingForm setUser={setUser} toggleSettingForm={toggleSettingForm}/>}
+            {showSettingForm && <SettingForm setUser={setUser} toggleSettingForm={toggleSettingForm} fetchUser={fetchUser}/>}
         </div> 
     </>
     );

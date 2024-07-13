@@ -87,8 +87,7 @@ class Logout(Resource):
 
 class UpdatePassword(Resource):
     def patch(self):
-        data = request.get_json()  # Correct usage of request.get_json()
-        logger.debug(f"Received data: {data}")
+        data = request.get_json() 
 
         if 'user_id' not in session:
             logger.error("Unauthorized: No user_id in session")
