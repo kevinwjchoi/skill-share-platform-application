@@ -25,6 +25,7 @@ function Login({ user, setUser, setRoles, fetchProjects, fetchApplications}) {
 
 
 
+    //test required to send props fetchProjects FetchApplications
     return (
     <div className="login-container">
 

@@ -4,7 +4,7 @@ import ProjectForm from "../components/ProjectForm";
 import ProjectCard from "../components/ProjectCard";
 import ApplicationForm from "../components/ApplicationForm";
 
-function Projects({user, setUser, handleNewProject, projects, handleDeleteProject, handleNewApplication }){
+function Projects({user, setUser, handleNewProject, projects, handleDeleteProject, handleNewApplication, fetchApplications }){
 
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [showAddProjectButton, setShowAddProjectButton] = useState(true);
@@ -53,7 +53,7 @@ function Projects({user, setUser, handleNewProject, projects, handleDeleteProjec
         {showAddProjectButton && (<button onClick={toggleProjectForm}>Add a Project</button>)}
         {showProjectForm && <ProjectForm handleNewProject={handleNewProject} toggleProjectForm={toggleProjectForm} />}
         {showProjectForm && (<button onClick={toggleProjectForm}>Back</button> )}
-        {showApplicationForm && <ApplicationForm toggleApplicationForm={toggleApplicationForm} selectedProject={selectedProject} handleNewApplication={handleNewApplication}/>}
+        {showApplicationForm && <ApplicationForm toggleApplicationForm={toggleApplicationForm} selectedProject={selectedProject} handleNewApplication={handleNewApplication} fetchApplications={fetchApplications}/>}
         {showAddProjectButton && (<select value={selectedCategory} onChange={handleCategoryChange}>
           {options.map((option, index) => (
             <option key={index} value={option}>{option}</option>
@@ -63,7 +63,7 @@ function Projects({user, setUser, handleNewProject, projects, handleDeleteProjec
       <ul className="cards">
         {showAddProjectButton && filteredProjectList.length > 0 ? (
           filteredProjectList.map((project) => (
-            <ProjectCard key={project.id} project={project} handleDeleteProject={handleDeleteProject} setSelectedProject={setSelectedProject} setShowApplicationForm={setShowApplicationForm} showApplicationForm={showApplicationForm}/>
+            <ProjectCard key={project.id} project={project} handleDeleteProject={handleDeleteProject} setSelectedProject={setSelectedProject} setShowApplicationForm={setShowApplicationForm} showApplicationForm={showApplicationForm} fetchApplications={fetchApplications}/>
           ))
         ) : (
           <p>No projects available</p>

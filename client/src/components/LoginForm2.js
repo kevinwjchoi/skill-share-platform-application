@@ -29,9 +29,7 @@ function LoginForm({setUser, setRoles, fetchProjects, fetchApplications}){
                 r => r.json()
               ).then(
                 data => {
-                  setRoles(data);
-                  fetchProjects();
-                  fetchApplications();
+                  setRoles(data)
                 }
               )
               .catch((error) => console.log(error))
@@ -41,6 +39,9 @@ function LoginForm({setUser, setRoles, fetchProjects, fetchApplications}){
         })
         .finally(() => {
             resetForm();
+            //This is part of the test to call 
+            fetchProjects();
+            fetchApplications();
         });
     };
     

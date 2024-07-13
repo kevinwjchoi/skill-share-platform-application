@@ -2,7 +2,7 @@ import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import './styles.css';
 
-function ApplicationForm({toggleApplicationForm, selectedProject, handleNewApplication}) {
+function ApplicationForm({toggleApplicationForm, selectedProject, handleNewApplication, fetchApplications}) {
 
     const initialValues = {
         role: "", 
@@ -44,6 +44,7 @@ function ApplicationForm({toggleApplicationForm, selectedProject, handleNewAppli
         .finally(() => {
             resetForm();
             toggleApplicationForm();
+            fetchApplications();
         });
     };
 

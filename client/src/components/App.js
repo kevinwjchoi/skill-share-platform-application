@@ -16,7 +16,6 @@ function App() {
   const [user, setUser] = useState(null)
   const [roles, setRoles] = useState([])
   const [projects, setProjects] = useState([])
-  const [project, setProject] = useState(null)
   const [applications, setApplications] = useState([])
   const [myApplications, setMyApplications] = useState([])
 
@@ -37,91 +36,68 @@ function App() {
     setApplications([...applications, newApplication])
   }
 
-function handleDeleteProject(deletedProject) {
-  const updatedProjectList = projects.filter((project) => project.id !== deletedProject.id);
-  console.log(updatedProjectList)
-  setProjects(updatedProjectList);
-  console.log(projects)
-}
+  function handleDeleteProject(deletedProject) {
+    const updatedProjectList = projects.filter((project) => project.id !== deletedProject.id);
+    setProjects(updatedProjectList);
+  }
 
-  useEffect(() => {
-      // auto-login
-      fetch("/check_session").then((r) => {
-          if (r.ok) {
-          r.json().then((data) => setUser(data));
-          }
+  const fetchProjects = () => {
+    fetch("/get_projects")
+      .then((r) => {
+        if (r.ok) {
+          return r.json();
+        } else {
+          throw new Error("Failed to fetch projects.");
+        }
+      })
+      .then((data) => {
+        setProjects(data);
+      })
+      .catch((error) => {
+        console.error("Fetch projects error:", error);
       });
-  }, []);
+  };
 
-  useEffect(()=> {
-      fetch("/users").then(
-          r => r.json()
-      ).then(
-          data => {
-              setUsers(data)
-          }
-      )
-      .catch((error) => console.log(error))
+  const fetchApplications = () => {
+    fetch("/get_my_applications")
+      .then((r) => {
+        if (r.ok) {
+          return r.json();
+        } else {
+          throw new Error("Failed to fetch applications.");
+        }
+      })
+      .then((data) => {
+        setMyApplications(data);
+      })
+      .catch((error) => {
+        console.error("Fetch applications error:", error);
+      });
+  };
+
+  useEffect(() => {
+    fetch("/check_session").then((r) => {
+      if (r.ok) {
+        r.json().then((data) => {
+          setUser(data);
+          fetchProjects();
+          fetchApplications();
+        });
+      }
+    });
   }, []);
 
   useEffect(() => {
-      fetch("/get_projects").then(
-          r => r.json()
-      ).then(
-          data => {
-              setProjects(data)
-          }
-      )
-      .catch((error) => console.log(error))
-  }, []);
-  
-  useEffect(() => {
-    fetch("/get_my_applications").then(
+    fetch("/users").then(
       r => r.json()
     ).then(
       data => {
-        setMyApplications(data)
+        setUsers(data);
       }
-    )
-    .catch((error) => console.log(error))
+    ).catch((error) => console.log(error));
   }, []);
 
 
-
-  const fetchProjects = () => {
-      fetch("/get_projects")
-          .then((r) => {
-              if (r.ok) {
-                  return r.json();
-              } else {
-                  throw new Error("Failed to fetch projects.");
-              }
-          })
-          .then((data) => {
-              setProjects(data);
-          })
-          .catch((error) => {
-              console.error("Fetch projects error:", error);
-          });
-  };
-
-  // Example function to fetch applications
-  const fetchApplications = () => {
-      fetch("/get_my_applications")
-          .then((r) => {
-              if (r.ok) {
-                  return r.json();
-              } else {
-                  throw new Error("Failed to fetch applications.");
-              }
-          })
-          .then((data) => {
-              setApplications(data);
-          })
-          .catch((error) => {
-              console.error("Fetch applications error:", error);
-          });
-  };
 
 
 
@@ -134,7 +110,7 @@ function handleDeleteProject(deletedProject) {
           <Route path="/login" element={<Login user={user} setUser={setUser} setRoles={setRoles} fetchProjects={fetchProjects} fetchApplications={fetchApplications}/>}/>
           <Route path="/signup" element={<Signup user={user} setUser={setUser} handleNewUser={handleNewUser}/>}/>
           <Route path="/setting" element={<Setting user={user} users={users} setUser={setUser} handleNewRole={handleNewRole} roles={roles} />}/>
-          <Route path="/projects" element={<Projects projects={projects} user={user} setUser={setUser} handleNewProject={handleNewProject} handleDeleteProject={handleDeleteProject} handleNewApplication={handleNewApplication} />}/>
+          <Route path="/projects" element={<Projects projects={projects} user={user} setUser={setUser} handleNewProject={handleNewProject} handleDeleteProject={handleDeleteProject} handleNewApplication={handleNewApplication} fetchApplications={fetchApplications}/>}/>
           </Routes>
 
           </main>
