@@ -22,6 +22,7 @@ if __name__ == '__main__':
         User.query.delete()
         Role.query.delete()
         Project.query.delete()
+        Application.query.delete()
         
 
         print("--Creating users--")
