@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Standard library imports
-from random import randint, choice as rc
+from random import choice
 
 # Remote library imports
 from faker import Faker
@@ -42,7 +42,37 @@ if __name__ == '__main__':
             user.password_hash = user.username + 'password'
 
             users.append(user)
-        
+
         db.session.add_all(users)
 
         db.session.commit()
+
+        print("--Creating projects--")
+        projects = []
+        for i in range(10):
+            title = fake.sentence(nb_words=3).strip('.').lower()
+            if len(title) < 4:
+                title += ' project' 
+            title = title[:20]  
+
+            description = fake.paragraph(nb_sentences=3).strip('.')
+            if len(description) < 10:
+                description += ' description' 
+            description = description[:80]
+
+            required_roles = choice(['frontend', 'backend']) 
+
+            project = Project(
+                title=title,
+                description=description,
+                required_roles=required_roles
+            )
+
+            projects.append(project)
+
+        db.session.add_all(projects)
+        db.session.commit()
+        
+        print("--Seeding complete--")    
+        
+

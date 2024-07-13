@@ -49,8 +49,7 @@ function Projects({user, setUser, handleNewProject, projects, handleDeleteProjec
     <>
       <header>
         <h1>Project list</h1>
-        <h2>Create a new project</h2>
-        {showAddProjectButton && (<button onClick={toggleProjectForm}>Add a Project</button>)}
+        {showAddProjectButton && (<button onClick={toggleProjectForm}>Create a project</button>)}
         {showProjectForm && <ProjectForm handleNewProject={handleNewProject} toggleProjectForm={toggleProjectForm} />}
         {showProjectForm && (<button onClick={toggleProjectForm}>Back</button> )}
         {showApplicationForm && <ApplicationForm toggleApplicationForm={toggleApplicationForm} selectedProject={selectedProject} handleNewApplication={handleNewApplication} fetchApplications={fetchApplications}/>}

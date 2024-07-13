@@ -56,13 +56,12 @@ The Skill-Share Platform is a web application that allows users to create, updat
 ## Installation
 
 1. **Clone the repository**:
-   ```sh
-   git clone https://github.com/kevinwjchoi/skill-share-platform.git
-   cd skill-share-platform
+  ```sh
+  git clone https://github.com/kevinwjchoi/skill-share-platform-application.git
+  cd skill-share-platform
 
 2. **Backend Setup**:
   ```sh
-  
   pipenv install && pipenv shell
   cd server
   flask db init
