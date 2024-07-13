@@ -236,6 +236,10 @@ class CreateApplication(Resource):
         if not project:
             return {'error': 'Project not found.'}, 404
 
+        user_roles = [role.name.lower() for role in User.query.get(user_id).roles]
+        if project.required_roles.lower() not in user_roles:
+            return {'error': 'User does not have required role for this project.'}, 403
+
         new_application = Application(role=role, user_id=user_id, project_id=project_id)
 
         db.session.add(new_application)
