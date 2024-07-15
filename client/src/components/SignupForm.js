@@ -36,6 +36,7 @@ function SignupForm({handleNewUser}){
         })
         .then((r) => {
             if (r.ok) {
+                alert('Successfully created an account')
                 return r.json().then((newUser) => handleNewUser(newUser));
             } else {
                 return r.json().then((err) => {

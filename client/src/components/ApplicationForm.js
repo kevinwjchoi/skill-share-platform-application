@@ -36,6 +36,7 @@ function ApplicationForm({toggleApplicationForm, selectedProject, handleNewAppli
                 alert('Successfully applied for this project')
                 return r.json().then((newApplication) => handleNewApplication(newApplication));
             } else {
+                alert('Applying for this project was unsuccessful')
                 return r.json().then((err) => {
                     setErrors(err.errors);
                     throw new Error("Create application failed.");

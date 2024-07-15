@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-function ProjectCard({ project, handleDeleteProject, showApplicationForm, setShowApplicationForm, setSelectedProject, fetchApplications, userApplicationProjectIDs }) {
+function ProjectCard({ project, handleDeleteProject, showApplicationForm, setShowApplicationForm, setSelectedProject, fetchApplications, userApplicationProjectIDs, showAddProjectButton, setShowAddProjectButton }) {
 
   const {title, description, required_roles} = project;
 
@@ -38,6 +38,7 @@ function ProjectCard({ project, handleDeleteProject, showApplicationForm, setSho
   const handleApplyButton = () => {
     setSelectedProject(project)
     setShowApplicationForm(!showApplicationForm);
+    setShowAddProjectButton(!showAddProjectButton)
   }
   
   

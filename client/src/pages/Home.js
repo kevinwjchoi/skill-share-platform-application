@@ -24,7 +24,7 @@ function Home({user, setUser, myApplications, projects}) {
       <div>
         <main className="Main">
             <h1>Skill Platform</h1>
-            <p>Skill-share platform allows you and other developers to see projects that are available. Go to setting and add a role first. Then find a project that fits your role and submit an application! </p>
+            <p>Skill-share platform allows you and other developers to see projects that are available. Go to settings and add a role first. Then find a project that fits your role and submit an application! </p>
         <div>
           <h2>My Applications ({applicationCount})</h2>
           <ul>

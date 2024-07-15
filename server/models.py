@@ -76,7 +76,7 @@ class Role(db.Model, SerializerMixin):
 class Project(db.Model, SerializerMixin):
     __tablename__ = 'projects'
 
-    #serialize_rules = ("",)
+    serialize_rules = ("-applications.project",)
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)

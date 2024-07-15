@@ -23,7 +23,7 @@ function NavBar({user, setUser}){
                 <>
                 <Link to="/home">Home </Link>
                 <Link to="/projects">Projects</Link>
-                <Link to="/setting">Setting </Link>
+                <Link to="/setting">Settings </Link>
                 <Link to="/" onClick={handleLogout}>Logout </Link>
                 </>
               ) : (
