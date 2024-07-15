@@ -36,7 +36,6 @@ function RoleForm({ handleNewRole }){
         proficiency: "",
     };
 
-    //handles all the input values  
     const validationSchema = Yup.object().shape({
         name: Yup.string()
             .required("")
