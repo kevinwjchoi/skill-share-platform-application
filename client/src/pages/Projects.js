@@ -18,7 +18,6 @@ function Projects({user, setUser, handleNewProject, projects, handleDeleteProjec
     const projectId = application.project.id;
     userApplicationProjectIDs.push(projectId);
   });
-  console.log(userApplicationProjectIDs)
 
 
   useEffect(() => {   
@@ -58,16 +57,22 @@ function Projects({user, setUser, handleNewProject, projects, handleDeleteProjec
   return (
     <>
       <header>
+
         <h1>Project list</h1>
         {showAddProjectButton && (<button onClick={toggleProjectForm}>Create a project</button>)}
+
         {showProjectForm && <ProjectForm handleNewProject={handleNewProject} toggleProjectForm={toggleProjectForm} />}
+
         {showProjectForm && (<button onClick={toggleProjectForm}>Back</button> )}
+
         {showApplicationForm && <ApplicationForm toggleApplicationForm={toggleApplicationForm} selectedProject={selectedProject} handleNewApplication={handleNewApplication} fetchApplications={fetchApplications}/>}
+
         {showAddProjectButton && (<select value={selectedCategory} onChange={handleCategoryChange}>
           {options.map((option, index) => (
             <option key={index} value={option}>{option}</option>
           ))}
         </select> )}
+
       </header>
       <ul className="cards">
         {showAddProjectButton && filteredProjectList.length > 0 ? (

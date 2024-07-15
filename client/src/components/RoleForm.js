@@ -15,6 +15,7 @@ function RoleForm({ handleNewRole }){
         })
         .then((r) => {
             if (r.ok) {
+                alert('Successfully added a role')
                 return r.json().then((data) => handleNewRole(data));
             } else {
                 return r.json().then((err) => {

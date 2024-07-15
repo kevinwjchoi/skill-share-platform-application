@@ -3,6 +3,7 @@ import React, {useState} from "react";
 function ProjectCard({ project, handleDeleteProject, showApplicationForm, setShowApplicationForm, setSelectedProject, fetchApplications, userApplicationProjectIDs }) {
 
   const {title, description, required_roles} = project;
+
   const [selectedFavorite, setSelectedFavorite] = useState(false);
   
   const isApplied = userApplicationProjectIDs.includes(project.id);

@@ -38,8 +38,10 @@ function ProjectForm({handleNewProject, toggleProjectForm}){
       })
       .then((r) => {
           if (r.ok) {
+              alert('Successfully created a project')
               return r.json().then((newProject) => handleNewProject(newProject));
           } else {
+              alert('Failed to create project')
               return r.json().then((err) => {
                   setErrors(err.errors);
                   throw new Error("Create project failed.");

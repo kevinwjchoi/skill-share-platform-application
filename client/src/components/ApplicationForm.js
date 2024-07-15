@@ -1,8 +1,11 @@
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import './styles.css';
+import { useNavigate } from 'react-router-dom';
 
 function ApplicationForm({toggleApplicationForm, selectedProject, handleNewApplication, fetchApplications}) {
+
+    const navigate = useNavigate();
 
     const initialValues = {
         role: "", 
@@ -30,6 +33,7 @@ function ApplicationForm({toggleApplicationForm, selectedProject, handleNewAppli
         })
         .then((r) => {
             if (r.ok) {
+                alert('Successfully applied for this project')
                 return r.json().then((newApplication) => handleNewApplication(newApplication));
             } else {
                 return r.json().then((err) => {
@@ -45,6 +49,7 @@ function ApplicationForm({toggleApplicationForm, selectedProject, handleNewAppli
             resetForm();
             toggleApplicationForm();
             fetchApplications();
+            navigate("/home");
         });
     };
 

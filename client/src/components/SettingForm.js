@@ -26,8 +26,10 @@ function SettingForm({ setUser, toggleSettingForm, fetchUser }){
         })
         .then((r) => {
             if (r.ok) {
+                alert('Successfully changed password')
                 return r.json().then((data) => setUser(data));
             } else {
+                alert('Password change was unsuccessful')
                 return r.json().then((err) => {
                     setErrors(err.errors);
                 });
