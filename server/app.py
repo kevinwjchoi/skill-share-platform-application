@@ -20,7 +20,6 @@ logger = logging.getLogger(__name__)
 
 
 @app.route('/')
-@app.route('/<int:id>')
 def index(id=0):
     return render_template("index.html")
 
@@ -62,6 +61,7 @@ class Signup(Resource):
 
 class CheckSession(Resource):
     def get(self):
+        print('This is working')
         user = User.query.filter(User.id == session.get('user_id')).first()
 
         if user:
