@@ -12,11 +12,18 @@ from models import User, Role, Project, Application
 from sqlalchemy import and_
 
 
-from flask import request, make_response, jsonify, session
+from flask import render_template, request, make_response, jsonify, session
 import logging
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+
+@app.route('/')
+@app.route('/<int:id>')
+def index(id=0):
+    return render_template("index.html")
+
 
 # This is for the users
 class Users(Resource):
