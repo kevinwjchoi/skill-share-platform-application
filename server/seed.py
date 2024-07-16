@@ -19,10 +19,12 @@ if __name__ == '__main__':
 
         print("--Deleting all records--")
         # Delete existing data
-        User.query.delete()
+        Application.query.delete()
         Role.query.delete()
         Project.query.delete()
-        Application.query.delete()
+        User.query.delete()
+
+
         
 
         print("--Creating users--")
