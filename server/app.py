@@ -179,6 +179,7 @@ class CreateRole(Resource):
         db.session.commit()
 
         return new_role.to_dict(), 201
+    
 
 
 #This is for the Projects
@@ -204,6 +205,7 @@ class CreateProject(Resource):
         db.session.commit()
 
         return new_project.to_dict(), 201
+    
     
 class GetProjects(Resource):
     def get(self):
@@ -267,6 +269,8 @@ class GetMyApplication(Resource):
             200,
             )
         return {'error': 'Unauthorized'}, 401
+
+
 
 
 
