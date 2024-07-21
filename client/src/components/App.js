@@ -30,13 +30,20 @@ function App() {
 
   function handleNewApplication(newApplication) {
     setApplications([...applications, newApplication]);
+
   }
 
+  function handlePasswordChange(data){
+    setUser(data)
+  }
   function handleDeleteProject(deletedProject) {
     const updatedProjectList = projects.filter((project) => project.id !== deletedProject.id);
     setProjects(updatedProjectList);
-  }
 
+    const updatedApplicationList = myApplications.filter((application) => application.project_id !== deletedProject.id)
+    setMyApplications(updatedApplicationList)
+  }
+    
   const fetchProjects = () => {
     fetch("/get_projects")
       .then((r) => {
@@ -103,9 +110,9 @@ function App() {
         <main className="App-main">
           <Routes>
             <Route path="/home" element={<Home user={user} setUser={setUser} myApplications={myApplications} projects={projects} />} />
-            <Route path="/login" element={<Login user={user} setUser={setUser} setRoles={setRoles} fetchProjects={fetchProjects} fetchApplications={fetchApplications} />} />
+            <Route path="/login" element={<Login user={user} setUser={setUser} setRoles={setRoles} fetchProjects={fetchProjects} />} />
             <Route path="/signup" element={<Signup user={user} setUser={setUser} handleNewUser={handleNewUser} />} />
-            <Route path="/setting" element={<Setting user={user} users={users} setUser={setUser} handleNewRole={handleNewRole} roles={roles} fetchUser={fetchUser} />} />
+            <Route path="/setting" element={<Setting user={user} users={users} setUser={setUser} handleNewRole={handleNewRole} roles={roles} fetchUser={fetchUser} handlePasswordChange={handlePasswordChange} />} />
             <Route path="/projects" element={<Projects projects={projects} user={user} setUser={setUser} handleNewProject={handleNewProject} handleDeleteProject={handleDeleteProject} handleNewApplication={handleNewApplication} fetchApplications={fetchApplications} />} />
           </Routes>
         </main>

@@ -49,7 +49,6 @@ function ApplicationForm({toggleApplicationForm, selectedProject, handleNewAppli
         .finally(() => {
             resetForm();
             toggleApplicationForm();
-            fetchApplications();
             navigate("/home");
         });
     };

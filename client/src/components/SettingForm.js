@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import React from "react";
 import './styles.css';
 
-function SettingForm({ setUser, toggleSettingForm, fetchUser }){
+function SettingForm({ toggleSettingForm, handlePasswordChange }){
     const initialValues= {
         oldPassword: "",
         newPassword: "",
@@ -27,7 +27,7 @@ function SettingForm({ setUser, toggleSettingForm, fetchUser }){
         .then((r) => {
             if (r.ok) {
                 alert('Successfully changed password')
-                return r.json().then((data) => setUser(data));
+                return r.json().then((data) => console.log(data));
             } else {
                 alert('Password change was unsuccessful')
                 return r.json().then((err) => {
@@ -40,7 +40,6 @@ function SettingForm({ setUser, toggleSettingForm, fetchUser }){
         })
         .finally(() => {
             resetForm();
-            fetchUser();
         });
         toggleSettingForm()
     }

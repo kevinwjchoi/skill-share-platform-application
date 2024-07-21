@@ -19,7 +19,7 @@ function ProjectForm({handleNewProject, toggleProjectForm}){
           .max(20, "Title must not exceed 20 characters"),
       description: Yup.string()
           .required("")
-          .min(10, "Description must be at least 6 characters")
+          .min(6, "Description must be at least 6 characters")
           .max(80, "Description must not exceed 80 characters"),
       required_roles: Yup.string()
           .required("")

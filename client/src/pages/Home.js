@@ -14,10 +14,11 @@ function Home({user, setUser, myApplications, projects}) {
         }
       });
     }, []);
-  
+
     if (!user) 
       return <Login setUser={setUser} />;
 
+    console.log(user)
     const applicationCount = myApplications.length; 
 
     return (
