@@ -77,7 +77,9 @@ function Projects({user, setUser, handleNewProject, projects, handleDeleteProjec
       <ul className="cards">
         {showAddProjectButton && filteredProjectList.length > 0 ? (
           filteredProjectList.map((project) => (
-            <ProjectCard key={project.id} project={project} handleDeleteProject={handleDeleteProject} setSelectedProject={setSelectedProject} setShowApplicationForm={setShowApplicationForm} showApplicationForm={showApplicationForm} fetchApplications={fetchApplications} userApplicationProjectIDs={userApplicationProjectIDs}
+            <ProjectCard key={project.id} project={project} handleDeleteProject={handleDeleteProject} 
+            setSelectedProject={setSelectedProject} setShowApplicationForm={setShowApplicationForm} 
+            showApplicationForm={showApplicationForm} userApplicationProjectIDs={userApplicationProjectIDs}
             setShowAddProjectButton={setShowAddProjectButton} showAddProjectButton={showAddProjectButton}/>
           ))
         ) : (

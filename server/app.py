@@ -61,7 +61,6 @@ class Signup(Resource):
 
 class CheckSession(Resource):
     def get(self):
-        print('This is working')
         user = User.query.filter(User.id == session.get('user_id')).first()
 
         if user:
@@ -206,7 +205,7 @@ class CreateProject(Resource):
 
         return new_project.to_dict(), 201
     
-    
+
 class GetProjects(Resource):
     def get(self):
         if 'user_id' in session and session['user_id'] is not None:

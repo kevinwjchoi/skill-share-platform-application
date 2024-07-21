@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-function ProjectCard({ project, handleDeleteProject, showApplicationForm, setShowApplicationForm, setSelectedProject, fetchApplications, userApplicationProjectIDs, showAddProjectButton, setShowAddProjectButton }) {
+function ProjectCard({ project, handleDeleteProject, showApplicationForm, setShowApplicationForm, setSelectedProject, userApplicationProjectIDs, showAddProjectButton, setShowAddProjectButton }) {
 
   const {title, description, required_roles} = project;
 
@@ -30,9 +30,6 @@ function ProjectCard({ project, handleDeleteProject, showApplicationForm, setSho
     .catch(error => {
       console.error('Error deleting project:', error);
     })
-    .finally(() => {
-      fetchApplications()
-    });
   }
 
   const handleApplyButton = () => {
